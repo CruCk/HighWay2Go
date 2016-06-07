@@ -13,34 +13,29 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class LoginActivityCustomer extends AppCompatActivity {
+public class LoginActivityService extends AppCompatActivity {
 
     protected EditText emailEditText;
     protected EditText passwordEditText;
     protected Button loginButton;
     protected TextView signUpTextView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_activity_customer);
+        setContentView(R.layout.activity_login_activity_service);
 
-
-        signUpTextView = (TextView) findViewById(R.id.signUpText);
-        emailEditText = (EditText) findViewById(R.id.emailField);
-        passwordEditText = (EditText) findViewById(R.id.passwordField);
-        loginButton = (Button) findViewById(R.id.loginButton);
+        signUpTextView = (TextView)findViewById(R.id.signUpText);
+        emailEditText = (EditText)findViewById(R.id.emailField);
+        passwordEditText = (EditText)findViewById(R.id.passwordField);
+        loginButton = (Button)findViewById(R.id.loginButton);
 
         final Firebase ref = new Firebase(Config.FIREBASE_URL);
 
-        if (ref.getAuth() != null) {
-            loadLandingView();
-        }
-
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivityCustomer.this, SignupActivityCustomer.class);
+                Intent intent = new Intent(LoginActivityService.this, SignupActivityService.class);
                 startActivity(intent);
             }
         });
@@ -55,7 +50,8 @@ public class LoginActivityCustomer extends AppCompatActivity {
                 password = password.trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivityCustomer.this);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivityService.this);
                     builder.setMessage(R.string.login_error_message)
                             .setTitle(R.string.login_error_title)
                             .setPositiveButton(android.R.string.ok, null);
@@ -73,7 +69,7 @@ public class LoginActivityCustomer extends AppCompatActivity {
 //                            map.put("email", emailAddress);
 //                            ref.child("users").child(authData.getUid()).setValue(map);
 
-                            Intent intent = new Intent(LoginActivityCustomer.this, CustomerLandingActivity.class);
+                            Intent intent = new Intent(LoginActivityService.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -82,7 +78,7 @@ public class LoginActivityCustomer extends AppCompatActivity {
                         @Override
                         public void onAuthenticationError(FirebaseError firebaseError) {
                             // Authenticated failed with error firebaseError
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivityCustomer.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivityService.this);
                             builder.setMessage(firebaseError.getMessage())
                                     .setTitle(R.string.login_error_title)
                                     .setPositiveButton(android.R.string.ok, null);
@@ -93,10 +89,5 @@ public class LoginActivityCustomer extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void loadLandingView() {
-        Intent i = new Intent(this, CustomerLandingActivity.class);
-        startActivity(i);
     }
 }

@@ -40,4 +40,12 @@
 
     //Custom created
     <string name="empty_message">One of the fields in empty. Please fill it.</string>
+
+    <string-array name="categories_array">
+        <item>Hospitals</item>
+        <item>Washrooms</item>
+        <item>Repairs</item>
+        <item>Restaurants</item>
+        <item>Motels</item>
+    </string-array>
 </resources>

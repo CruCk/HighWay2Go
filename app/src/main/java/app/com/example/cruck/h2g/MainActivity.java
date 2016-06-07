@@ -24,16 +24,23 @@ public class MainActivity extends AppCompatActivity {
         //Buttons on click actions
         customerBut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CustomerLandingActivity.class);
+                Intent i = new Intent(MainActivity.this, LoginActivityCustomer.class);
+                startActivity(i);
+            }
+        });
+
+        serviceproviderBut.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, LoginActivityService.class);
                 startActivity(i);
             }
         });
 
         // Check Authentication
         mRef = new Firebase(Config.FIREBASE_URL);
-        if (mRef.getAuth() == null) {
-            loadLoginView();
-        }
+//        if (mRef.getAuth() == null) {
+//            loadLoginView();
+//        }
 
     }
 
