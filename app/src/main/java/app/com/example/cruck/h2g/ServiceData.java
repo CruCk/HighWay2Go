@@ -1,24 +1,33 @@
 package app.com.example.cruck.h2g;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceData extends AppCompatActivity {
+public class ServiceData extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     protected EditText usernameEditText;
     protected EditText fullnameEditText;
@@ -28,11 +37,27 @@ public class ServiceData extends AppCompatActivity {
     protected Spinner categorySpinner;
     protected NumberPicker highwayNum;
     protected Button createButton;
-
+    protected String latitudeSS;
+    protected String longitudeSS;
+    final private int PERMISSION_ACCESS_COARSE_LOCATION = 123;
+    private GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_data);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION },
+                    PERMISSION_ACCESS_COARSE_LOCATION);
+        }
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
 
         usernameEditText = (EditText) findViewById(R.id.usernamefield);
         fullnameEditText = (EditText) findViewById(R.id.fullnamefield);
@@ -90,7 +115,8 @@ public class ServiceData extends AppCompatActivity {
                             map.put("servicePhone", servicephone);
                             map.put("category", category);
                             map.put("highwayNumber", highwayNumber);
-                            System.out.println(emailAddress+" "+username+" "+fullname+" "+servicename+" "+servicedescription+" "+servicephone+" "+category+" "+highwayNumber);
+                            map.put("latitude", latitudeSS);
+                            map.put("longitude", longitudeSS);
                             ref.child("services").child(authData.getUid()).setValue(map);
 
                             Intent intent = new Intent(ServiceData.this, ServiceLandingActivity.class);
@@ -115,5 +141,53 @@ public class ServiceData extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d("location failed", "we entered this shit");
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // All good!
+                } else {
+                    Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d("location", "we Connected!");
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Log.d("location", "we are in!!!");
+            latitudeSS = Double.toString(lastLocation.getLatitude());
+            longitudeSS = Double.toString(lastLocation.getLongitude());
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {}
+
+    @Override
+    public void onConnectionSuspended(int i) {}
+
+
 }
 

@@ -10,63 +10,77 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.com.example.cruck.h2g.MainActivity"
-    tools:showIn="@layout/activity_main"
-    android:background="#ebdac0">
+    tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to HIGHWAY2GO"
-        android:id="@+id/textView"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="206dp" />
-
-    <Button
-        android:id="@+id/signinBut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" android:text="SignIn / Signup"
-        android:background="#fcf9f9"
-        android:layout_alignTop="@+id/signupBut"
-        android:layout_alignStart="@+id/textView">
-    </Button>
-    <Button
-        android:id="@+id/signupBut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Signin/signup"
-        android:background="#fefffe"
-        android:layout_marginBottom="74dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/textView" />
-
-    <ImageButton
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:id="@+id/imageButton"
-        android:background="@mipmap/log"
-        android:layout_above="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Customer"
-        android:id="@+id/textView2"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignStart="@+id/signinBut" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Service Provider"
-        android:id="@+id/textView3"
-        android:layout_above="@+id/signupBut"
-        android:layout_alignStart="@+id/signupBut" />
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true">
+        <ImageButton
+            android:layout_width="260dp"
+            android:layout_height="216dp"
+            android:id="@+id/imageButton"
+            android:background="@mipmap/log"
+            android:layout_gravity="center_horizontal|top" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Welcome to Highway2Go"
+                android:id="@+id/textView"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Signin / SignUp to continue"
+                android:id="@+id/textView2"
+                android:maxHeight="45dp"
+                android:layout_below="@+id/textView"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="10dp" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textView2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="44dp">
+                <Button
+                    android:layout_width="191dp"
+                    android:layout_height="wrap_content"
+                    android:text="CUSTOMER"
+                    android:id="@+id/signinBut"
+                    android:layout_gravity="center_horizontal|top"
+                    android:maxWidth="191dp"
+                    android:minWidth="191dp"
+                    android:background="#29aab8"
+                    android:backgroundTint="#28b3c2"
+                    android:textColor="#ffffff"
+                    android:textColorHighlight="#ffffff"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:visibility="visible"
+                    android:focusableInTouchMode="false"
+                    android:backgroundTintMode="multiply" />
+                <Button
+                    android:layout_width="191dp"
+                    android:layout_height="wrap_content"
+                    android:text="SERVICE PROVIDER"
+                    android:id="@+id/signupBut"
+                    android:layout_gravity="center"
+                    android:minWidth="191dp"
+                    android:maxWidth="191dp"
+                    android:textColor="#ffffff"
+                    android:textColorHighlight="#ffffff"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:background="#29aab8"
+                    android:backgroundTint="#28b3c2"
+                    android:backgroundTintMode="multiply" />
+            </FrameLayout>
+        </RelativeLayout>
+    </FrameLayout>
 </RelativeLayout>

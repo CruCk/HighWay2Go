@@ -31,6 +31,10 @@ public class LoginActivityService extends AppCompatActivity {
 
         final Firebase ref = new Firebase(Config.FIREBASE_URL);
 
+        if (ref.getAuth() != null) {
+            loadLandingView();
+        }
+
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -69,7 +73,7 @@ public class LoginActivityService extends AppCompatActivity {
 //                            map.put("email", emailAddress);
 //                            ref.child("users").child(authData.getUid()).setValue(map);
 
-                            Intent intent = new Intent(LoginActivityService.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivityService.this, ServiceLandingActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -79,15 +83,23 @@ public class LoginActivityService extends AppCompatActivity {
                         public void onAuthenticationError(FirebaseError firebaseError) {
                             // Authenticated failed with error firebaseError
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivityService.this);
-                            builder.setMessage(firebaseError.getMessage())
+                            builder.setMessage(R.string.no_internet)
                                     .setTitle(R.string.login_error_title)
                                     .setPositiveButton(android.R.string.ok, null);
                             AlertDialog dialog = builder.create();
                             dialog.show();
+
                         }
                     });
                 }
             }
         });
+    }
+
+    private void loadLandingView() {
+        Intent i = new Intent(this, ServiceLandingActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 }

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="app.com.example.cruck.h2g.ServiceLandingActivity"
+    tools:showIn="@layout/activity_service_landing"
+    android:textAlignment="viewStart"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#29aab8"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:backgroundTint="#28b3c2"
+        android:backgroundTintMode="multiply"
+        android:paddingTop="92dp"
+        android:paddingBottom="14dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignStart="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar"
+        android:weightSum="1"
+        android:layout_alignTop="@+id/toolbar">
+        <ImageButton
+            android:layout_width="103dp"
+            android:layout_height="103dp"
+            android:id="@+id/imageButton"
+            android:background="@mipmap/log"
+            android:cropToPadding="true" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="SERVICE NAME"
+                android:id="@+id/textView2"
+                android:textColor="#ffffff"
+                android:textColorHighlight="#ffffff"
+                android:textSize="@dimen/abc_dialog_padding_material"
+                android:paddingLeft="60dp"
+                android:paddingTop="40dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignStart="@+id/toolbar">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_alignStart="@+id/toolbar"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About you"
+                android:id="@+id/textView15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:id="@+id/textView"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:textColor="#000000"
+                android:textColorHighlight="#ffffff"
+                android:textSize="@dimen/abc_dialog_padding_top_material" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ratings:"
+                android:id="@+id/textView4"
+                android:paddingTop="0dp"
+                android:paddingLeft="5dp" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:paddingTop="0dp"
+                android:progressBackgroundTint="#77a651"
+                android:paddingLeft="5dp"
+                android:isIndicator="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Comments Published:"
+                android:id="@+id/textView3"
+                android:paddingTop="0dp"
+                android:paddingLeft="5dp" />
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="218dp"
+                android:id="@+id/listView" />
+
+        </LinearLayout>
+    </ScrollView>
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentTop="true" />-->
+</RelativeLayout>

@@ -7,6 +7,8 @@ public class DataService {
     private String category;
     private String email;
     private String highwayNumber;
+    private String latitude;
+    private String longitude;
     private String name;
     private String serviceDescription;
     private String serviceName;
@@ -19,6 +21,8 @@ public class DataService {
     public String getCategory() {return category;}
     public String getEmail() {return email;}
     public String getHighwayNumber() {return highwayNumber;}
+    public String getLatitude() {return latitude;}
+    public String getLongitude() {return longitude;}
     public String getName() {return name;}
     public String getServiceDescription() {return serviceDescription;}
     public String getServiceName() {return serviceName;}

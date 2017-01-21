@@ -61,18 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            mRef.unauth();
-            loadLoginView();
-//            return true;
+            if(mRef.getAuth() != null) {
+                mRef.unauth();
+            }
+//                loadLoginView();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadLoginView() {
-        Intent intent = new Intent(this, LoginActivityCustomer.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
+//    private void loadLoginView() {
+//        Intent intent = new Intent(this, LoginActivityCustomer.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
+//    }
 }

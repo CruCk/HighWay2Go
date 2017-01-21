@@ -68,11 +68,6 @@ public class LoginActivityCustomer extends AppCompatActivity {
                     ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
                         @Override
                         public void onAuthenticated(AuthData authData) {
-                            // Authenticated successfully with payload authData
-//                            Map<String, Object> map = new HashMap<String, Object>();
-//                            map.put("email", emailAddress);
-//                            ref.child("users").child(authData.getUid()).setValue(map);
-
                             Intent intent = new Intent(LoginActivityCustomer.this, CustomerLandingActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -83,7 +78,7 @@ public class LoginActivityCustomer extends AppCompatActivity {
                         public void onAuthenticationError(FirebaseError firebaseError) {
                             // Authenticated failed with error firebaseError
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivityCustomer.this);
-                            builder.setMessage(firebaseError.getMessage())
+                            builder.setMessage(R.string.no_internet)
                                     .setTitle(R.string.login_error_title)
                                     .setPositiveButton(android.R.string.ok, null);
                             AlertDialog dialog = builder.create();
@@ -97,6 +92,9 @@ public class LoginActivityCustomer extends AppCompatActivity {
 
     private void loadLandingView() {
         Intent i = new Intent(this, CustomerLandingActivity.class);
+//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+        finish();
     }
 }
