@@ -28,10 +28,10 @@ public class HttpHandler {
             URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+
             // read the response
-            Log.d(TAG, "okay");
+
             InputStream in = new BufferedInputStream(conn.getInputStream());
-            Log.d(TAG, "it is working?");
             response = convertStreamToString(in);
         } catch (MalformedURLException e) {
             Log.e(TAG, "MalformedURLException: " + e.getMessage());

@@ -11,10 +11,9 @@ public class Item {
         super();
     }
 
-    public Item(int icon, String title, String distance) {
+    public Item(int icon, String title) {
         super();
         this.icon = icon;
         this.title = title;
-        this.distance= distance;
     }
 }

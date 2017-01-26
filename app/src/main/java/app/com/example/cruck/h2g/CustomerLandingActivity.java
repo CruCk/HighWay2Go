@@ -57,6 +57,9 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
     private String url;
     private String distanceInfo;
     private ProgressDialog pDialog;
+    private ArrayList<String> distanceArraylist;
+    private ArrayList<Item> arr;
+    private ItemAdapter adapterList;
 
 
     @Override
@@ -119,8 +122,13 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoriesListView.setAdapter(adapter);
-                adapter.clear();
+
+                //Initialising distanceArrayList every time search is clicked.
+                distanceArraylist = new ArrayList<String>();
+                categoriesListView.setAdapter(null);
+                //adapter.clear();
+                weather_data = new Item[] {};
+                adapterList = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
                 intentSending.clear();
                 String highwaysUrl = Config.FIREBASE_URL + "/services";
                 Firebase highwaySearch = new Firebase(highwaysUrl);
@@ -129,8 +137,8 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                 highwaySearch.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        //System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
-                        ArrayList<Item> arr = new ArrayList<Item>();
+
+                        arr = new ArrayList<Item>();
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                             DataService post = postSnapshot.getValue(DataService.class);
@@ -139,34 +147,32 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
 //                                arr.add(new (post.getCategory(), post.getServiceName()));
 
                                 //Add the location distance Code here
-                                distanceInfo = "N/A";
 
                                 if(post.getLatitude() != null && latitudeSS != null) {
                                     url="http://maps.google.com/maps/api/distancematrix/json?origins="+post.getLatitude()
                                     +","+post.getLongitude()+"&destinations="+latitudeSS+","+longitudeSS
                                             +"&units=metric"; //&key=AIzaSyD__QgpE4k6Y5A2s5rqEKahul1Avf9mBWQ";
-                                    distanceInfo = new GetdistancefromJSON().getDistance(url);
+                                    //distanceInfo = new GetdistancefromJSON().getDistance(url);
+                                    new DistanceBackgroundFetcher().execute();
                                     Log.d(TAG, "Distance is "+distanceInfo);
                                 }
-                                distanceInfo = "3 kms";
 
                                 //End of distance Code
 
-                                if(post.getCategory().equals("Hospitals")) arr.add(new Item(R.mipmap.hospital, post.getServiceName(), distanceInfo));
-                                else if(post.getCategory().equals("Washrooms")) arr.add(new Item(R.mipmap.washroom, post.getServiceName(), distanceInfo));
-                                else if(post.getCategory().equals("Repairs")) arr.add(new Item(R.mipmap.repair, post.getServiceName(), distanceInfo));
-                                else if(post.getCategory().equals("Restaurants")) arr.add(new Item(R.mipmap.food, post.getServiceName(), distanceInfo));
-                                else if(post.getCategory().equals("Motels")) arr.add(new Item(R.mipmap.motel, post.getServiceName(), distanceInfo));
-                                adapter.add("Service Name: " + post.getServiceName() + "\n" + "Service Description: " + post.getServiceDescription() + "\n"+ distanceInfo);
+                                if(post.getCategory().equals("Hospitals")) arr.add(new Item(R.mipmap.hospital, post.getServiceName()));
+                                else if(post.getCategory().equals("Washrooms")) arr.add(new Item(R.mipmap.washroom, post.getServiceName()));
+                                else if(post.getCategory().equals("Repairs")) arr.add(new Item(R.mipmap.repair, post.getServiceName()));
+                                else if(post.getCategory().equals("Restaurants")) arr.add(new Item(R.mipmap.food, post.getServiceName()));
+                                else if(post.getCategory().equals("Motels")) arr.add(new Item(R.mipmap.motel, post.getServiceName()));
                             }
                         }
 
-                        //My Custom
-//                        weather_data = new Item[]
-//                                {new Item(R.mipmap.log, post.getServiceName())};
-                        weather_data = arr.toArray(new Item[arr.size()]);
-                        ItemAdapter adapter1 = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
-                        categoriesListView.setAdapter(adapter1);
+                        //Log.d(TAG, "length of ditsnace array is: "+distanceArraylist.size());
+
+
+                        //weather_data = arr.toArray(new Item[arr.size()]);
+                        //ItemAdapter adapter1 = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
+                        //categoriesListView.setAdapter(adapter1);
                         Log.d(TAG, "testing");
                         //My Custom
 
@@ -306,5 +312,61 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
 
     @Override
     public void onConnectionSuspended(int i) {}
+
+    //Background class to fetch all the distance data and put them in an ArrayList
+    private class DistanceBackgroundFetcher extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            distanceArraylist = new ArrayList<String>();
+            weather_data = new Item[] {};
+
+            adapterList.clear();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            distanceInfo="N/A";
+            HttpHandler sh = new HttpHandler();
+
+            // Making a request to url and getting response
+            Log.i(TAG, "Url is "+url);
+            String jsonStr = sh.makeServiceCall(url);
+
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    // Getting JSON Array node
+                    JSONArray contacts = jsonObj.getJSONArray("rows");
+                    JSONObject elements = contacts.getJSONObject(0);   //first object in rows...elements
+                    JSONArray element = elements.getJSONArray("elements");
+                    JSONObject distances = element.getJSONObject(0);
+                    JSONObject distance = distances.getJSONObject("distance");
+                    distanceInfo = distance.getString("text");
+                    Log.i(TAG, "distance is:  "+distanceInfo);
+
+                } catch (final JSONException e) {
+                    Log.e(TAG, "JSON parsing failed. ");
+                }
+            } else {
+                Log.e(TAG, "The JSON String is null. Din't even reach JSON parsing part.");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params) {
+            distanceArraylist.add(distanceInfo);
+            for(int _i=0;_i<distanceArraylist.size();_i++) {
+                arr.get(_i).distance = distanceArraylist.get(_i);
+            }
+            weather_data = arr.toArray(new Item[arr.size()]);
+
+            adapterList = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
+            categoriesListView.setAdapter(adapterList);
+            Log.d(TAG, "executed");
+
+        }
+    }
 
 }
