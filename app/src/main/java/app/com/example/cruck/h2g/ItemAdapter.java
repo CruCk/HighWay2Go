@@ -38,7 +38,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             holder = new WeatherHolder();
             holder.imgIcon = (ImageView)row.findViewById(R.id.imgIcon);
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
-
+            holder.distView = (TextView)row.findViewById(R.id.distView);
             row.setTag(holder);
         }
         else
@@ -49,7 +49,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         Item weather = data[position];
         holder.txtTitle.setText(weather.title);
         holder.imgIcon.setImageResource(weather.icon);
-
+        holder.distView.setText(weather.distance);
         return row;
     }
 
@@ -57,5 +57,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     {
         ImageView imgIcon;
         TextView txtTitle;
+        TextView distView;
     }
 }

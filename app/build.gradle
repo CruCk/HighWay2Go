@@ -3,7 +3,6 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
-//    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "app.com.example.cruck.h2g"
@@ -11,9 +10,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         multiDexEnabled true
-
     }
     buildTypes {
         release {
@@ -27,22 +24,16 @@ android {
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
     }
-    dexOptions {
-        incremental true
-        javaMaxHeapSize "4g"
-    }
 
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
-    compile 'com.android.support:support-v4:25.0.0'
+    //compile 'com.android.support:support-v4:25.0.0'
     compile 'com.firebase:firebase-client-android:2.3.1'
     compile 'com.google.android.gms:play-services:9.0.0'
-    compile 'com.android.support:multidex:1.0.1'
 
 }
 

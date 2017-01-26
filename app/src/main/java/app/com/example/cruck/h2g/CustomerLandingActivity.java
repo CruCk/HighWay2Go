@@ -1,8 +1,10 @@
 package app.com.example.cruck.h2g;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -28,11 +30,17 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CustomerLandingActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG = CustomerLandingActivity.class.getSimpleName();
     private Firebase mRef;
     private String mUserId;
     private String itemsUrl;
@@ -46,6 +54,10 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
     protected String longitudeSS;
     final private int PERMISSION_ACCESS_COARSE_LOCATION = 123;
     private GoogleApiClient mGoogleApiClient;
+    private String url;
+    private String distanceInfo;
+    private ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +129,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                 highwaySearch.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
+                        //System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
                         ArrayList<Item> arr = new ArrayList<Item>();
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
@@ -127,12 +139,16 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
 //                                arr.add(new (post.getCategory(), post.getServiceName()));
 
                                 //Add the location distance Code here
-                                String distanceInfo = "N/A";
-                                if(post.getLatitude() != null || latitudeSS != null) {
+                                distanceInfo = "N/A";
 
+                                if(post.getLatitude() != null && latitudeSS != null) {
+                                    url="http://maps.google.com/maps/api/distancematrix/json?origins="+post.getLatitude()
+                                    +","+post.getLongitude()+"&destinations="+latitudeSS+","+longitudeSS
+                                            +"&units=metric"; //&key=AIzaSyD__QgpE4k6Y5A2s5rqEKahul1Avf9mBWQ";
+                                    distanceInfo = new GetdistancefromJSON().getDistance(url);
+                                    Log.d(TAG, "Distance is "+distanceInfo);
                                 }
-
-
+                                distanceInfo = "3 kms";
 
                                 //End of distance Code
 
@@ -151,7 +167,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                         weather_data = arr.toArray(new Item[arr.size()]);
                         ItemAdapter adapter1 = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
                         categoriesListView.setAdapter(adapter1);
-
+                        Log.d(TAG, "testing");
                         //My Custom
 
                     }
