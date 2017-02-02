@@ -1,4 +1,4 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.util;
 
 import android.app.Application;
 import android.content.Context;

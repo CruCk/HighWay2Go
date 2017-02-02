@@ -7,114 +7,114 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="app.com.example.cruck.h2g.ServiceData">
+    tools:context="app.com.example.cruck.h2g.signup.ServiceProviderPostSignUp">
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Almost there.."
-            android:id="@+id/textView4" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="username"
-            android:id="@+id/textView5" />
+            android:text="username" />
 
         <EditText
+            android:id="@+id/usernamefield"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/usernamefield" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Full Name"
-            android:id="@+id/textView6" />
+            android:text="Full Name" />
 
         <EditText
+            android:id="@+id/fullnamefield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/fullnamefield" />
+            android:inputType="textPersonName" />
 
         <TextView
+            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service Name"
-            android:id="@+id/textView8" />
+            android:text="Service Name" />
 
         <EditText
+            android:id="@+id/servicename"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/servicename" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service Description"
-            android:id="@+id/textView9" />
+            android:text="Service Description" />
 
         <EditText
+            android:id="@+id/servicedescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/servicedescription" />
+            android:inputType="textMultiLine" />
 
         <TextView
+            android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service Phone No."
-            android:id="@+id/textView10" />
+            android:text="Service Phone No." />
 
         <EditText
+            android:id="@+id/servicephone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
             android:ems="10"
-            android:id="@+id/servicephone" />
+            android:inputType="phone" />
 
         <TextView
+            android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service Category"
-            android:id="@+id/textView11" />
+            android:text="Service Category" />
 
         <Spinner android:id="@+id/Spinner01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Highway Number"
-            android:id="@+id/textView12" />
+            android:text="Highway Number" />
 
 
         <NumberPicker
+            android:id="@+id/numberPicker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/numberPicker" />
+            android:layout_height="wrap_content" />
 
         <Button
+            android:id="@+id/createbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/createbutton"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:text="Create" />
 
 
 

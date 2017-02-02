@@ -1,14 +1,11 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.serviceprovider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,18 +16,20 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import app.com.example.cruck.h2g.R;
+import app.com.example.cruck.h2g.firebaseconfig.Config;
+import app.com.example.cruck.h2g.model.Comment;
+import app.com.example.cruck.h2g.model.ServiceProvider;
+import app.com.example.cruck.h2g.operations.MainActivity;
 
-public class Rating extends AppCompatActivity {
+public class ServiceProviderLanding extends AppCompatActivity {
 
     private Firebase mRef;
     private String mUserId;
 
     private TextView serviceName;
     private TextView serviceDescription;
-    private EditText commentWrite;
-    private ImageButton submitComment;
+
     private RatingBar commentRating;
     private ListView lv;
 
@@ -42,16 +41,12 @@ public class Rating extends AppCompatActivity {
 
         serviceName = (TextView) findViewById(R.id.textView2);
         serviceDescription = (TextView) findViewById(R.id.textView);
-        commentWrite = (EditText) findViewById(R.id.editText);
-        submitComment = (ImageButton) findViewById(R.id.imageButton2);
         commentRating = (RatingBar) findViewById(R.id.ratingBar);
         lv = (ListView) findViewById(R.id.listView);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
         lv.setAdapter(adapter);
 
-        Intent i = getIntent();
-        key = i.getStringExtra("key");
 
         mRef = new Firebase(Config.FIREBASE_URL);
         try {
@@ -59,7 +54,7 @@ public class Rating extends AppCompatActivity {
         } catch (Exception e) {
             loadLoginView();
         }
-
+        key = mUserId;
         //For showing the service Name and Description.
         String highwaysUrl = Config.FIREBASE_URL + "/services";
         Firebase highwaySearch = new Firebase(highwaysUrl);
@@ -69,7 +64,7 @@ public class Rating extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-                    DataService post = postSnapshot.getValue(DataService.class);
+                    ServiceProvider post = postSnapshot.getValue(ServiceProvider.class);
                     if (key.equals(postSnapshot.getKey().toString())) {
                         serviceName.setText(post.getServiceName());
                         serviceDescription.setText(post.getServiceDescription());
@@ -93,16 +88,16 @@ public class Rating extends AppCompatActivity {
                 float count = 0;
                 float div = 0;
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    DataComment post = postSnapshot.getValue(DataComment.class);
-                    adapter.add(post.getComment());
+                    Comment post = postSnapshot.getValue(Comment.class);
                     count = count + Float.parseFloat(post.getRating());
                     div++;
+                    adapter.add(post.getComment());
                 }
-
                 if(div !=0) {
                     float answer = count/div;
                     commentRating.setRating(answer);
                 }
+
             }
 
             @Override
@@ -112,30 +107,6 @@ public class Rating extends AppCompatActivity {
         });
 
 
-        commentWrite.setSelected(false);
-
-        submitComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String commentPosted = commentWrite.getText().toString();
-                String ratingGiven = String.valueOf(commentRating.getRating());
-                if(commentPosted.isEmpty() || ratingGiven.isEmpty() || ratingGiven.equals("0.0")) {
-                    Toast.makeText(Rating.this, "The rating or the comment is missing. Try again.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    String saveURL = Config.FIREBASE_URL;
-                    Firebase saveFirebase = new Firebase(saveURL);
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("comment", commentPosted);
-                    map.put("rating", ratingGiven);
-                    saveFirebase.child("comments").child(key).child(mUserId).setValue(map);
-                    commentWrite.setText("");
-                    commentRating.setRating(0F);
-                    Toast.makeText(Rating.this, "Comment Added.", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
     }
 

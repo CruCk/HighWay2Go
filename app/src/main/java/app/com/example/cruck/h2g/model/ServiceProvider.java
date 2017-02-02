@@ -1,9 +1,9 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.model;
 
 /**
  * Created by cruck on 03-06-2016.
  */
-public class DataService {
+public class ServiceProvider {
     private String category;
     private String email;
     private String highwayNumber;
@@ -15,7 +15,7 @@ public class DataService {
     private String servicePhone;
     private String username;
 
-    public DataService() {
+    public ServiceProvider() {
     }
 
     public String getCategory() {return category;}

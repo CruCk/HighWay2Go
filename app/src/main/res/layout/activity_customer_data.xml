@@ -7,65 +7,65 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="app.com.example.cruck.h2g.CustomerData">
+    tools:context="app.com.example.cruck.h2g.signup.ServiceUserPostSignUp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Almost there.."
-            android:id="@+id/textView4" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="username"
-            android:id="@+id/textView5" />
+            android:text="username" />
 
         <EditText
+            android:id="@+id/usernamefield"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/usernamefield" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Full Name"
-            android:id="@+id/textView6" />
+            android:text="Full Name" />
 
         <EditText
+            android:id="@+id/fullnamefield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/fullnamefield" />
+            android:inputType="textPersonName" />
 
         <TextView
+            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone No."
-            android:id="@+id/textView7" />
+            android:text="Phone No." />
 
         <EditText
+            android:id="@+id/phonefield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
             android:ems="10"
-            android:id="@+id/phonefield" />
+            android:inputType="phone" />
 
         <Button
+            android:id="@+id/createbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/createbutton"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:text="Create" />
 
     </LinearLayout>
 </RelativeLayout>

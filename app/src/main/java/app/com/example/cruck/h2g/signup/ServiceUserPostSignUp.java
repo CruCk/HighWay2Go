@@ -1,4 +1,4 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,11 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerData extends AppCompatActivity {
+import app.com.example.cruck.h2g.R;
+import app.com.example.cruck.h2g.firebaseconfig.Config;
+import app.com.example.cruck.h2g.serviceuser.ServiceUserLanding;
+
+public class ServiceUserPostSignUp extends AppCompatActivity {
 
     protected EditText usernameEditText;
     protected EditText fullnameEditText;
@@ -42,7 +46,7 @@ public class CustomerData extends AppCompatActivity {
                 final String phone = phoneEditText.getText().toString().trim();
 
                 if(username.isEmpty() || fullname.isEmpty() || phone.isEmpty()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CustomerData.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ServiceUserPostSignUp.this);
                     builder.setMessage(R.string.empty_message)
                             .setTitle(R.string.signup_error_title)
                             .setPositiveButton(android.R.string.ok, null);
@@ -65,7 +69,7 @@ public class CustomerData extends AppCompatActivity {
                             map.put("phone", phone);
                             ref.child("users").child(authData.getUid()).setValue(map);
 
-                            Intent intent = new Intent(CustomerData.this, CustomerLandingActivity.class);
+                            Intent intent = new Intent(ServiceUserPostSignUp.this, ServiceUserLanding.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -74,7 +78,7 @@ public class CustomerData extends AppCompatActivity {
                         @Override
                         public void onAuthenticationError(FirebaseError firebaseError) {
                             // Authenticated failed with error firebaseError
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CustomerData.this);
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ServiceUserPostSignUp.this);
                             builder.setMessage(firebaseError.getMessage())
                                     .setTitle(R.string.login_error_title)
                                     .setPositiveButton(android.R.string.ok, null);

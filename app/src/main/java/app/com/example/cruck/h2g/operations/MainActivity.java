@@ -1,4 +1,4 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.operations;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.firebase.client.Firebase;
+
+import app.com.example.cruck.h2g.R;
+import app.com.example.cruck.h2g.firebaseconfig.Config;
+import app.com.example.cruck.h2g.signin.ServiceProviderSignIn;
+import app.com.example.cruck.h2g.signin.ServiceUserSignIn;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,14 +29,14 @@ public class MainActivity extends AppCompatActivity {
         //Buttons on click actions
         customerBut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, LoginActivityCustomer.class);
+                Intent i = new Intent(MainActivity.this, ServiceUserSignIn.class);
                 startActivity(i);
             }
         });
 
         serviceproviderBut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, LoginActivityService.class);
+                Intent i = new Intent(MainActivity.this, ServiceProviderSignIn.class);
                 startActivity(i);
             }
         });
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //    private void loadLoginView() {
-//        Intent intent = new Intent(this, LoginActivityCustomer.class);
+//        Intent intent = new Intent(this, ServiceUserSignIn.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        startActivity(intent);

@@ -1,4 +1,4 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.serviceuser;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -35,12 +35,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class CustomerLandingActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+import app.com.example.cruck.h2g.R;
+import app.com.example.cruck.h2g.firebaseconfig.Config;
+import app.com.example.cruck.h2g.model.Item;
+import app.com.example.cruck.h2g.model.ServiceProvider;
+import app.com.example.cruck.h2g.operations.MainActivity;
+import app.com.example.cruck.h2g.operations.Rating;
+import app.com.example.cruck.h2g.util.HttpHandler;
+import app.com.example.cruck.h2g.util.ItemAdapter;
+
+public class ServiceUserLanding extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = CustomerLandingActivity.class.getSimpleName();
+    private static final String TAG = ServiceUserLanding.class.getSimpleName();
+    final private int PERMISSION_ACCESS_COARSE_LOCATION = 123;
+    protected String latitudeSS;
+    protected String longitudeSS;
     private Firebase mRef;
     private String mUserId;
     private String itemsUrl;
@@ -50,9 +61,6 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
     private ListView categoriesListView;
     private ArrayList<String> intentSending;
     private Item weather_data[];
-    protected String latitudeSS;
-    protected String longitudeSS;
-    final private int PERMISSION_ACCESS_COARSE_LOCATION = 123;
     private GoogleApiClient mGoogleApiClient;
     private String url;
     private String distanceInfo;
@@ -60,12 +68,12 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
     private ArrayList<String> distanceArraylist;
     private ArrayList<Item> arr;
     private ItemAdapter adapterList;
-
+    private Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_landing);
+        setContentView(R.layout.service_user_landing);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -128,7 +136,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                 categoriesListView.setAdapter(null);
                 //adapter.clear();
                 weather_data = new Item[] {};
-                adapterList = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
+                adapterList = new ItemAdapter(ServiceUserLanding.this, R.layout.listview_item_row, weather_data);
                 intentSending.clear();
                 String highwaysUrl = Config.FIREBASE_URL + "/services";
                 Firebase highwaySearch = new Firebase(highwaysUrl);
@@ -142,7 +150,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                         url ="http://maps.google.com/maps/api/distancematrix/json?origins=";
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-                            DataService post = postSnapshot.getValue(DataService.class);
+                            ServiceProvider post = postSnapshot.getValue(ServiceProvider.class);
                             if (post.getHighwayNumber().equals(highwayNumber)) {
                                 intentSending.add(postSnapshot.getKey().toString());
 //                                arr.add(new (post.getCategory(), post.getServiceName()));
@@ -170,7 +178,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
 
 
                         //weather_data = arr.toArray(new Item[arr.size()]);
-                        //ItemAdapter adapter1 = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
+                        //ItemAdapter adapter1 = new ItemAdapter(ServiceUserLanding.this, R.layout.listview_item_row, weather_data);
                         //categoriesListView.setAdapter(adapter1);
                         Log.d(TAG, "testing");
                         //My Custom
@@ -196,7 +204,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CustomerLandingActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ServiceUserLanding.this);
                 builder.setMessage(R.string.no_internet)
                         .setTitle(R.string.login_error_title)
                         .setPositiveButton(android.R.string.ok, null);
@@ -215,7 +223,6 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
         startActivity(intent);
     }
 
-    private Boolean exit = false;
     @Override
     public void onBackPressed() {
         if (exit) {
@@ -367,7 +374,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
             }
             weather_data = arr.toArray(new Item[arr.size()]);
 
-            adapterList = new ItemAdapter(CustomerLandingActivity.this, R.layout.listview_item_row, weather_data);
+            adapterList = new ItemAdapter(ServiceUserLanding.this, R.layout.listview_item_row, weather_data);
             categoriesListView.setAdapter(adapterList);
             Log.d(TAG, "executed");
 

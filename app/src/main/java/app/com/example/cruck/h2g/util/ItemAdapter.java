@@ -1,4 +1,4 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import app.com.example.cruck.h2g.R;
+import app.com.example.cruck.h2g.model.Item;
 
 /**
  * Created by cruck on 10-06-2016.

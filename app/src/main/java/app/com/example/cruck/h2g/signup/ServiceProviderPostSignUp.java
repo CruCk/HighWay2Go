@@ -1,4 +1,4 @@
-package app.com.example.cruck.h2g;
+package app.com.example.cruck.h2g.signup;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,9 +26,14 @@ import com.google.android.gms.location.LocationServices;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceData extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+import app.com.example.cruck.h2g.R;
+import app.com.example.cruck.h2g.firebaseconfig.Config;
+import app.com.example.cruck.h2g.serviceprovider.ServiceProviderLanding;
+
+public class ServiceProviderPostSignUp extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    final private int PERMISSION_ACCESS_COARSE_LOCATION = 123;
     protected EditText usernameEditText;
     protected EditText fullnameEditText;
     protected EditText servicenameEditText;
@@ -39,9 +44,9 @@ public class ServiceData extends AppCompatActivity implements GoogleApiClient.Co
     protected Button createButton;
     protected String latitudeSS;
     protected String longitudeSS;
-    final private int PERMISSION_ACCESS_COARSE_LOCATION = 123;
-    private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +73,7 @@ public class ServiceData extends AppCompatActivity implements GoogleApiClient.Co
         highwayNum = (NumberPicker) findViewById(R.id.numberPicker);
         createButton = (Button) findViewById(R.id.createbutton);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ServiceData.this,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(ServiceProviderPostSignUp.this,
                 R.array.categories_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
@@ -90,7 +95,7 @@ public class ServiceData extends AppCompatActivity implements GoogleApiClient.Co
                 final String category = categorySpinner.getSelectedItem().toString();
                 final String highwayNumber = Integer.toString(highwayNum.getValue());
                 if(username.isEmpty() || fullname.isEmpty() || servicename.isEmpty() || servicedescription.isEmpty() || servicephone.isEmpty() || category.isEmpty() || highwayNumber.isEmpty()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ServiceData.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ServiceProviderPostSignUp.this);
                     builder.setMessage(R.string.empty_message)
                             .setTitle(R.string.signup_error_title)
                             .setPositiveButton(android.R.string.ok, null);
@@ -119,7 +124,7 @@ public class ServiceData extends AppCompatActivity implements GoogleApiClient.Co
                             map.put("longitude", longitudeSS);
                             ref.child("services").child(authData.getUid()).setValue(map);
 
-                            Intent intent = new Intent(ServiceData.this, ServiceLandingActivity.class);
+                            Intent intent = new Intent(ServiceProviderPostSignUp.this, ServiceProviderLanding.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -128,7 +133,7 @@ public class ServiceData extends AppCompatActivity implements GoogleApiClient.Co
                         @Override
                         public void onAuthenticationError(FirebaseError firebaseError) {
                             // Authenticated failed with error firebaseError
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ServiceData.this);
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ServiceProviderPostSignUp.this);
                             builder.setMessage(firebaseError.getMessage())
                                     .setTitle(R.string.login_error_title)
                                     .setPositiveButton(android.R.string.ok, null);
