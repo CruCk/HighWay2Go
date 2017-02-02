@@ -139,6 +139,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                     public void onDataChange(DataSnapshot snapshot) {
 
                         arr = new ArrayList<Item>();
+                        url ="http://maps.google.com/maps/api/distancematrix/json?origins=";
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                             DataService post = postSnapshot.getValue(DataService.class);
@@ -147,14 +148,10 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
 //                                arr.add(new (post.getCategory(), post.getServiceName()));
 
                                 //Add the location distance Code here
-
                                 if(post.getLatitude() != null && latitudeSS != null) {
-                                    url="http://maps.google.com/maps/api/distancematrix/json?origins="+post.getLatitude()
-                                    +","+post.getLongitude()+"&destinations="+latitudeSS+","+longitudeSS
-                                            +"&units=metric"; //&key=AIzaSyD__QgpE4k6Y5A2s5rqEKahul1Avf9mBWQ";
-                                    //distanceInfo = new GetdistancefromJSON().getDistance(url);
-                                    new DistanceBackgroundFetcher().execute();
-                                    Log.d(TAG, "Distance is "+distanceInfo);
+                                    url+=post.getLatitude()
+                                    +","+post.getLongitude()+"|"; //&key=AIzaSyD__QgpE4k6Y5A2s5rqEKahul1Avf9mBWQ";
+
                                 }
 
                                 //End of distance Code
@@ -166,6 +163,8 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                                 else if(post.getCategory().equals("Motels")) arr.add(new Item(R.mipmap.motel, post.getServiceName()));
                             }
                         }
+                        url += "&destinations="+latitudeSS+","+longitudeSS+"&units=metric";
+                        new DistanceBackgroundFetcher().execute();
 
                         //Log.d(TAG, "length of ditsnace array is: "+distanceArraylist.size());
 
@@ -320,8 +319,8 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
         protected void onPreExecute() {
             distanceArraylist = new ArrayList<String>();
             weather_data = new Item[] {};
-
             adapterList.clear();
+
         }
 
         @Override
@@ -338,11 +337,17 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
                     JSONObject jsonObj = new JSONObject(jsonStr);
                     // Getting JSON Array node
                     JSONArray contacts = jsonObj.getJSONArray("rows");
-                    JSONObject elements = contacts.getJSONObject(0);   //first object in rows...elements
-                    JSONArray element = elements.getJSONArray("elements");
-                    JSONObject distances = element.getJSONObject(0);
-                    JSONObject distance = distances.getJSONObject("distance");
-                    distanceInfo = distance.getString("text");
+                    for(int i=0;i<contacts.length();i++) {
+                        JSONObject elements = contacts.getJSONObject(i);   //first object in rows...elements
+                        JSONArray element = elements.getJSONArray("elements");
+                        Log.d(TAG, "i value is: "+i);
+                        JSONObject distances = element.getJSONObject(0);
+                        JSONObject distance = distances.getJSONObject("distance");
+                        distanceInfo = distance.getString("text");
+                        distanceArraylist.add(distanceInfo);
+                    }
+
+
                     Log.i(TAG, "distance is:  "+distanceInfo);
 
                 } catch (final JSONException e) {
@@ -356,7 +361,7 @@ public class CustomerLandingActivity extends AppCompatActivity implements Google
 
         @Override
         protected void onPostExecute(Void params) {
-            distanceArraylist.add(distanceInfo);
+            //distanceArraylist.add(distanceInfo);
             for(int _i=0;_i<distanceArraylist.size();_i++) {
                 arr.get(_i).distance = distanceArraylist.get(_i);
             }
