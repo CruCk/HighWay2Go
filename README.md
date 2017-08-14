@@ -12,7 +12,7 @@ Here is the progress that has been done upto now:
 - [x] Complete the basic structuring behind UI part          ` CHECK `
 - [x] Setup a database to store data                         ` CHECK ` 
 - [ ] Implement functionality                                ` IN PROGRESS `
-- [x] Re arrange the code for easy debugging  ` TO BE IMPLEMENTED `
+- [x] Re arrange the code for easy debugging  ` CHECK `
 - [ ] Make the UI more user friendly  ` TO BE IMPLEMENTED `
 - [ ] Make the database more reliable  ` TO BE IMPLEMENTED `
 - [ ] Finding bugs and trivial case checking  ` TO BE IMPLEMENTED `
